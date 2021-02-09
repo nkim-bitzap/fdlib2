@@ -189,6 +189,7 @@ class EdgeInfo {
     const StiffnessQuad &getStiffnessQuad() const;
 
     double getStiffness(const int index) const;
+
     void setStiffness(const int index, const double value);
     void setStiffness(const double stiffness1,
                       const double stiffness2,
@@ -251,6 +252,7 @@ class ForceDensity {
 
     const LoadInfo &getUniformLoad(const int index) const;
     LoadInfo &getUniformLoad(const int index);
+
     void setUniformLoad(const int index, const LoadInfo &load);
     void setUniformLoad(const int index,
                         const double loadX,
@@ -273,7 +275,6 @@ class ForceDensity {
     void addEdge(const int ib,
                  const int ie,
                  const StiffnessQuad &stiffness);
-
 
     void enableStiffnessThread(const int threadID,
                                const bool enable);

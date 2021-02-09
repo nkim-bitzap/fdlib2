@@ -31,8 +31,7 @@ extern "C" __DECLSPEC void clearForceDensityPool();
 // want to compute in parallel (unlimited, but keep reasonable, i.e. max 2-4).
 // Returns 'BAD_INSTANCE_ERROR' for invalid pool objects (i.e. create the pool
 // first) and 'NO_ERROR' otherwise. The number of 'stiffness' threads per mesh
-// is internally limited to max 4 without error output. The 'ID' of the newly
-// created instance is returned in the second argument
+// is internally limited to max 4 without error output
 extern "C" __DECLSPEC ErrorCode addForceDensityInstance(
                                const int numStiffThreads,
                                int &instanceID);
