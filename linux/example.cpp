@@ -2,7 +2,6 @@
 #include "forcedensity.h"
 
 #include <iostream>
-#include <sstream>
 #include <thread>
 
 #define DEBUG_PRINTS
