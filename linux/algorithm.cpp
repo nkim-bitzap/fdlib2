@@ -1,8 +1,8 @@
 #include "algorithm.h"
 #include "exception.h"
 
-#include <cassert>
 #include <iostream>
+#include <list>
 #include <thread>
 
 //-----------------------------------------------------------------------------

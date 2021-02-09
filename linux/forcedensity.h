@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __FORCEDENSITY_H
+#define __FORCEDENSITY_H
 
 #include "algorithm.h"
 
@@ -382,17 +383,5 @@ extern "C" __DECLSPEC ErrorCode enableInstanceThread(
 // ness computations per mesh)
 extern "C" __DECLSPEC ErrorCode runForceDensityInstances();
 
-
-// OLD STUFF, dont use!
-
-// additional parameters for the calculator. Allow the surface to be influen-
-// ced by external loads. Interpret as a non-normalized 3d vector with compo-
-// nents representing loads in a particular direction
-extern "C" __DECLSPEC ErrorCode setUniformSurfaceLoad(const double,
-                                                      const double,
-                                                      const double);
-
-extern "C" __DECLSPEC ErrorCode getUniformSurfaceLoad(double&,
-                                                      double&,
-                                                      double&);
+#endif // __FORCEDENSITY_H
 

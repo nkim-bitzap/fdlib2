@@ -1,8 +1,5 @@
-#include <cassert>
-
 #include "forcedensity.h"
 #include "exception.h"
-
 
 ForceDensityPool *pool = 0;
 
