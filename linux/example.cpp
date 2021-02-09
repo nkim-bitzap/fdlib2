@@ -154,7 +154,7 @@ int main(int argc, char **argv) {
   enableInstanceThread(mesh2, 3, true);
 
   // run again, mesh 2 triggers all 4 stiffness threads now
-  if (runForceDensityInstances() != NO_ERROR) return -1;
+  if (runForceDensityInstances() != NO_ERROR) return 1;
 
   // done, goodbye
   releaseForceDensityPool();
