@@ -135,7 +135,7 @@ int main(int argc, char **argv) {
               << std::endl;
   }
 
-  // visualize output for thread 2 of mesh 3
+  // visualize output for thread 2 of mesh 2
   std::cout << std::endl << "  result of thread 2 for mesh "
             << mesh2 << ":" << std::endl;
 
