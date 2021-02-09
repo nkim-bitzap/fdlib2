@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
 
 #ifdef DEBUG_PRINTS
   // visualize output for thread 1 of mesh 1
-  std::cout << std::endl << "  result of thread 0 for mesh "
+  std::cout << "  result of thread 0 for mesh "
             << mesh1 << ":" << std::endl;
 
   for (int i = 0; i < getNumInstancePoints(mesh1); ++i) {
@@ -152,6 +152,10 @@ int main(int argc, char **argv) {
   // re-enable all threads for mesh 2 
   enableInstanceThread(mesh2, 1, true);
   enableInstanceThread(mesh2, 3, true);
+
+  // skip mesh 1 computation, this has no runtime overhead,
+  // but occupies memory (until the instance is dropped)
+  enableForceDensityInstance(mesh1, false);
 
   // run again, mesh 2 triggers all 4 stiffness threads now
   if (runForceDensityInstances() != NO_ERROR) return 1;
