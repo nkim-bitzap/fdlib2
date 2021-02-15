@@ -671,15 +671,21 @@ void ForceDensityThread::operator()(
   Eigen::MatrixXd xyz_fixed = Eigen::MatrixXd::Zero(numVertices, 3);
   Eigen::MatrixXd p = Eigen::MatrixXd::Zero(numVertices, 3);
 
+  std::list<unsigned> cornerIDs;
+
   for (unsigned V = 0; V < numVertices; ++V) {
     p(V, 0) = uniLoad.loadX() + points[V].getLoadInfo().loadX();
     p(V, 1) = uniLoad.loadY() + points[V].getLoadInfo().loadY();
     p(V, 2) = uniLoad.loadZ() + points[V].getLoadInfo().loadZ();
 
     if (points[V].getFixed()) {
-      xyz_fixed(V, 0) = points[V].x();
-      xyz_fixed(V, 1) = points[V].y();
-      xyz_fixed(V, 2) = points[V].z();
+      const PointInfo &corner = points[V];
+
+      cornerIDs.push_back(V);
+
+      xyz_fixed(V, 0) = corner.x();
+      xyz_fixed(V, 1) = corner.y();
+      xyz_fixed(V, 2) = corner.z();
     }
   }
 
@@ -701,6 +707,14 @@ void ForceDensityThread::operator()(
   x = QR.solve(b);
 
   if (QR.info() != Eigen::Success) throw SolverException();
+
+  // for completeness, transfer the fixed points (as contained in the input)
+  // array to the result matrix
+  for (unsigned cornerID : cornerIDs) {
+    x(cornerID, 0) = points[cornerID].x();
+    x(cornerID, 1) = points[cornerID].y();
+    x(cornerID, 2) = points[cornerID].z();
+  }
 }
 
 //-----------------------------------------------------------------------------
