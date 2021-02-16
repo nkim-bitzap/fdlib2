@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __FORCEDENSITY_H
+#define __FORCEDENSITY_H
 
 #include "algorithm.h"
 
@@ -30,8 +31,7 @@ extern "C" __DECLSPEC void clearForceDensityPool();
 // want to compute in parallel (unlimited, but keep reasonable, i.e. max 2-4).
 // Returns 'BAD_INSTANCE_ERROR' for invalid pool objects (i.e. create the pool
 // first) and 'NO_ERROR' otherwise. The number of 'stiffness' threads per mesh
-// is internally limited to max 4 without error output. The 'ID' of the newly
-// created instance is returned in the second argument
+// is internally limited to max 4 without error output
 extern "C" __DECLSPEC ErrorCode addForceDensityInstance(
                                const int numStiffThreads,
                                int &instanceID);
@@ -382,17 +382,5 @@ extern "C" __DECLSPEC ErrorCode enableInstanceThread(
 // ness computations per mesh)
 extern "C" __DECLSPEC ErrorCode runForceDensityInstances();
 
-
-// OLD STUFF, dont use!
-
-// additional parameters for the calculator. Allow the surface to be influen-
-// ced by external loads. Interpret as a non-normalized 3d vector with compo-
-// nents representing loads in a particular direction
-extern "C" __DECLSPEC ErrorCode setUniformSurfaceLoad(const double,
-                                                      const double,
-                                                      const double);
-
-extern "C" __DECLSPEC ErrorCode getUniformSurfaceLoad(double&,
-                                                      double&,
-                                                      double&);
+#endif // __FORCEDENSITY_H
 

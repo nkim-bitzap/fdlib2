@@ -2,7 +2,6 @@
 #include "forcedensity.h"
 
 #include <iostream>
-#include <sstream>
 #include <thread>
 
 #define DEBUG_PRINTS
@@ -42,7 +41,7 @@ int main(int argc, char **argv) {
     addInstanceEdgeInfo(mesh1, 7, 8, 10.0, 0, 0, 0);  // h->i
   }
 
-  // mesh 2 data, 4 stiffness thread
+  // mesh 2 data, 4 stiffness threads
   {
     // add an instance for mesh 2 (ID 1) with 4 stiffness values
     if (addForceDensityInstance(4, mesh2) != NO_ERROR) return 1;
@@ -83,15 +82,15 @@ int main(int argc, char **argv) {
 
   // execute all instances (meshes) in parallel. Mesh 2 additionally
   // triggers 4 threads, one for each edge/stiffness variant
-  if (runForceDensityInstances() != NO_ERROR) return -1;
+  if (runForceDensityInstances() != NO_ERROR) return 1;
 
   // result of mesh 1 and stiffness thread 0
   {
     for (int i = 0; i < getNumInstancePoints(mesh1); ++i) {
       double x, y, z;
 
-      // only one thread specified during construction, accessing any
-      // other thread will result in an error
+      // only one stiffness-thread has been specified, thus accessing
+      // any other threads will result in an error
       getInstanceResultPoint(mesh1, 0, i, x, y, z);
     }
   }
@@ -110,7 +109,7 @@ int main(int argc, char **argv) {
 
 #ifdef DEBUG_PRINTS
   // visualize output for thread 1 of mesh 1
-  std::cout << std::endl << "  result of thread 0 for mesh "
+  std::cout << "  result of thread 0 for mesh "
             << mesh1 << ":" << std::endl;
 
   for (int i = 0; i < getNumInstancePoints(mesh1); ++i) {
@@ -135,7 +134,7 @@ int main(int argc, char **argv) {
               << std::endl;
   }
 
-  // visualize output for thread 2 of mesh 3
+  // visualize output for thread 2 of mesh 2
   std::cout << std::endl << "  result of thread 2 for mesh "
             << mesh2 << ":" << std::endl;
 
@@ -149,12 +148,16 @@ int main(int argc, char **argv) {
   }
 #endif
 
-  // enable all threads for mesh 2 
+  // re-enable all threads for mesh 2 
   enableInstanceThread(mesh2, 1, true);
   enableInstanceThread(mesh2, 3, true);
 
+  // skip mesh 1 computation, this has no runtime overhead,
+  // but occupies memory (until the instance is dropped)
+  enableForceDensityInstance(mesh1, false);
+
   // run again, mesh 2 triggers all 4 stiffness threads now
-  if (runForceDensityInstances() != NO_ERROR) return -1;
+  if (runForceDensityInstances() != NO_ERROR) return 1;
 
   // done, goodbye
   releaseForceDensityPool();
