@@ -545,8 +545,8 @@ ErrorCode setInstanceEdgeIE(const int instanceID,
 //-----------------------------------------------------------------------------
 
 ErrorCode setInstanceEdgeStiffness(const int instanceID,
-                                   const int edgeID,
                                    const int threadID,
+                                   const int edgeID,
                                    const double stiffness)
 {
   if (!pool) return BAD_INSTANCE_ERROR;
@@ -704,8 +704,8 @@ ErrorCode getInstanceEdgeIE(const int instanceID,
 //-----------------------------------------------------------------------------
 
 ErrorCode getInstanceEdgeStiffness(const int instanceID,
-                                   const int edgeID,
                                    const int threadID,
+                                   const int edgeID,
                                    double &stiffness)
 {
   if (!pool) return BAD_INSTANCE_ERROR;
@@ -917,7 +917,25 @@ ErrorCode enableInstanceThread(const int instanceID,
 
 //-----------------------------------------------------------------------------
 
-ErrorCode runForceDensityInstances() {
+ErrorCode runForceDensityInstance(const int id) {
+  if (!pool) return BAD_INSTANCE_ERROR;
+
+  try {
+    pool->runInstance(id);
+  }
+  catch (const IndexAccessException &e) {
+    return BAD_INDEX_ERROR;
+  }
+  catch (...) {
+    return UNKNOWN_ERROR;
+  }
+
+  return NO_ERROR;
+}
+
+//-----------------------------------------------------------------------------
+
+ErrorCode runAllForceDensityInstances() {
   if (!pool) return BAD_INSTANCE_ERROR;
 
   try {

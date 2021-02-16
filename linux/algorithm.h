@@ -354,6 +354,7 @@ class ForceDensityPool {
     const EdgeInfo &getEdge(const int instanceID,
                             const int edgeIndex) const;
 
+    void runInstance(const int id);
     void runInstances();
 };
 

@@ -237,8 +237,8 @@ extern "C" __DECLSPEC ErrorCode setInstanceEdgeIE(
 // edge. The same error codes as 'addInstancePointInfo'
 extern "C" __DECLSPEC ErrorCode setInstanceEdgeStiffness(
                                const int instanceID,
-                               const int edgeID,
                                const int threadID,
+                               const int edgeID,
                                const double stiffness);
 
 // convenience function for setting all 4 stiffness values at once. I.e. one
@@ -282,8 +282,8 @@ extern "C" __DECLSPEC ErrorCode getInstanceEdgeIE(
 // edge. The same error codes as 'addInstancePointInfo'
 extern "C" __DECLSPEC ErrorCode getInstanceEdgeStiffness(
                                const int instanceID,
-                               const int edgeID,
                                const int threadID,
+                               const int edgeID,
                                double &stiffness);
 
 // convenience function for getting all 4 stiffness values at once. I.e. one
@@ -377,10 +377,15 @@ extern "C" __DECLSPEC ErrorCode enableInstanceThread(
                                const int threadID,
                                const bool enable);
 
+// allow running a single instance (if enabled). Even if this is implemented as
+// a thread, there is no instance parallelism possible due to the 'join' condi-
+// tion
+extern "C" __DECLSPEC ErrorCode runForceDensityInstance(const int id);
+
 // run all collected/added force-density instances (mesh computation) at once
 // in separate threads, which in turn initiate further threads (multiple stiff-
 // ness computations per mesh)
-extern "C" __DECLSPEC ErrorCode runForceDensityInstances();
+extern "C" __DECLSPEC ErrorCode runAllForceDensityInstances();
 
 #endif // __FORCEDENSITY_H
 

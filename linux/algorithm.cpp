@@ -885,6 +885,20 @@ const EdgeInfo &ForceDensityPool::getEdge(const int instanceID,
 
 //-----------------------------------------------------------------------------
 
+void ForceDensityPool::runInstance(const int id) {
+  if (id < 0 || id >= _instances.size())
+    throw IndexAccessException();
+
+  ForceDensity *fd = _instances[id];
+
+  if (fd->isEnabledInstance()) {
+    std::thread t(ForceDensityInstance(), std::ref(*fd));
+    t.join();
+  }
+}
+
+//-----------------------------------------------------------------------------
+
 void ForceDensityPool::runInstances() {
   std::list<std::thread> threads;
 
